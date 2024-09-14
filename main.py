@@ -6,26 +6,29 @@ def main():
     print(f"{words} words found in the document\n")
 
     char_count = count_chars(text)
-    table = char_count.sort(reverse=True, key=sort_on)
-    print(table)
+    char_count_list = letter_dict_to_list(char_count)
+    char_count_list.sort(reverse=True, key=sort_on)
+    for char in char_count_list:
+        print(f"The {char['key']} character was found {char['value']} times")
 
 def sort_on(dict):
-    print(dict)
     return dict["value"]
 
 def count_chars(book):
-    count = []
+    data = {}
     for letter in book:
-        data = {}
-        l = letter.lower()
-        if l in count:
-            print(l)       
-            data.update({"value": count[l]+ 1})
+        l = letter.lower()  
+        if l in data:
+            data[l] = data[l] + 1
         else:
-            if l.isalpha():
-                data = {"key": l, "value": 0}
-                count.append(data)
-        # if data not in count:
+            data[l] = 0
+    return data
+
+def letter_dict_to_list(letter_list):
+    count = []
+    for letter in letter_list:
+        if letter.isalpha():
+            count.append({"key":letter, "value": letter_list[letter]})
     return count
 
 
